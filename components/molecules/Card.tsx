@@ -33,10 +33,6 @@ const Card: React.FC<CardProps> = ({
           <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
             {label}
           </h3>
-
-          <p className="mt-1 text-xs font-medium text-gray-600">
-            {greenlabels?.join(", ")}
-          </p>
         </div>
 
         <div className="hidden sm:block sm:shrink-0">
@@ -56,8 +52,6 @@ const Card: React.FC<CardProps> = ({
         <p className="text-sm text-gray-500">
           Calories: {calories?.toFixed(2)}
         </p>
-        {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
-        {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
         <p className="text-sm text-gray-500">
           Ingredients:
         </p>
@@ -68,6 +62,8 @@ const Card: React.FC<CardProps> = ({
             </li>
           ))}
         </ul>
+        {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
+        {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
       </div>
     </a>
   );

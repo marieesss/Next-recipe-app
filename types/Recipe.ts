@@ -60,17 +60,18 @@ export interface Recipe {
       [key: string]: NutrientInfo;
     };
     digest: DigestEntry[];
+    _links: Links; 
   }
   
-export interface Link {
+  export interface Link {
     href: string;
     title: string;
-  }
-  
+}
+
 export interface Links {
-    self: Link;
-    next?: Link;
-  }
+  self: Link;
+  next?: Link;
+}
   
 export interface Hit {
     recipe: Recipe;

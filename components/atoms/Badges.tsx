@@ -6,7 +6,7 @@ interface BadgeProps {
 }
 
 const Badge: React.FC<BadgeProps> = ({ text, type }) => {
-  // Définir les classes en fonction du type de badge
+  // Define class depending on type
   const badgeClasses =
     type === 'caution'
       ? 'bg-red-100 text-red-700'
