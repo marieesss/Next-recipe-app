@@ -1,5 +1,5 @@
+// Fetch data from api
 export async function fetchData(url : string, options = {}) {
-    console.log(url)
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
