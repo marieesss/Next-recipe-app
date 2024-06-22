@@ -1,8 +1,9 @@
 import React from 'react';
 import Card from '../molecules/Card';
+import { Recipe } from '@/types/Recipe';
 
 interface MealListProps {
-  recipesList: Array<any>; 
+  recipesList: Array<Recipe>; 
 }
 
 const RecipesList: React.FC<MealListProps> = ({ recipesList }) => {

@@ -2,6 +2,7 @@ import RecipesList from "@/components/organism/RecipesList";
 import { getMeals } from "@/utils/services/recipes";
 
 export default async function Index() {
+  // retrieve all recipes
   const res = await getMeals();
 
   if (res && res.length > 0) {
