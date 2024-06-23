@@ -1,10 +1,12 @@
-import { Hit } from "@/types/Recipe";
+import { Hit, Recipe } from "@/types/Recipe";
 import { fetchData } from "./api";
 
-export async function getMeals() {
+const initUrl = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}&mealType=Dinner`;
+
+export async function getMeals(url = initUrl) {
     try {
-        const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=e54e42cd&app_key=501b216ff0da961baca2990d55216528&mealType=Dinner`;
         const res = await fetchData(url);
+        const next = res._links.next.href
         const recipes = res.hits.map((hit: Hit) => {
             const {
                 label,
@@ -13,7 +15,8 @@ export async function getMeals() {
                 cuisineType,
                 dietLabels,
                 calories,
-                cautions
+                cautions,
+                uri
             } = hit.recipe;
             return {
                 label,
@@ -22,12 +25,24 @@ export async function getMeals() {
                 cuisineType,
                 dietLabels,
                 calories,
-                cautions
+                cautions,
+                uri
+
             };
         });
-        return recipes;
+        return {recipes, next};
     } catch (error) {
         console.error("Failed to fetch meals:", error);
+        throw error;
+    }
+}
+
+export async function getRecipeById(id : string) {
+    try {
+        const url = `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}`;
+        const res = await fetchData(url);  
+        return res.recipe as Recipe;
+    } catch (error) {
         throw error;
     }
 }

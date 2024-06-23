@@ -10,6 +10,7 @@ interface CardProps {
   greenlabels: string[];
   redLabels:string[]
   calories: number;
+  id : string
 }
 
 const Card: React.FC<CardProps> = ({
@@ -19,12 +20,12 @@ const Card: React.FC<CardProps> = ({
   cuisineType,
   greenlabels,
   calories,
-  redLabels
+  redLabels,
+  id
 }) => {
-
   return (
     <a
-      href="#"
+      href={`recipes/${id}`}
       className=" w-64 relative block overflow-hidden rounded-lg border border-gray-500 p-4 sm:p-6 lg:p-8"
     >
 
