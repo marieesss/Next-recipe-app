@@ -32,12 +32,12 @@ const Index =  () => {
   // Handle search recipes
   const handleSearch = (value: string) => {
     setSearchValue(value)
-    handleFilter()
+     handleFilter()
   };
 
-  const handleFilter = () =>{
+  const handleFilter = async () =>{
     if (searchValue.trim().length > 0) {
-      const filtered = filterSearch(recipes, searchValue);
+      const filtered = await filterSearch(recipes, searchValue);
       setFilteredRecipes(filtered);
     }
   }
