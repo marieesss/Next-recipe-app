@@ -1,4 +1,4 @@
-import { Ingredient } from "./Ingredient";
+import { Ingredient, MyIngredient } from "./Ingredient";
 export interface ImageInfo {
     url: string;
     width: number;
@@ -22,9 +22,21 @@ export interface DigestEntry {
     sub?: DigestEntry[];
   }
 
-export interface Recipe {
-    uri: string;
+export interface MainRecipe {
     label: string;
+    yield: number;
+    cuisineType: string[];
+    instructions: string[];
+    comments? : string
+  }
+
+  export interface MyRecipe extends MainRecipe{
+    description : string
+    ingredients: MyIngredient[]
+
+  }
+  export interface Recipe extends MainRecipe{
+    uri: string;
     image: string;
     images: {
       THUMBNAIL: ImageInfo;
@@ -40,17 +52,13 @@ export interface Recipe {
     healthLabels: string[];
     cautions: string[];
     ingredientLines: string[];
-    ingredients: Ingredient[];
     calories: number;
     glycemicIndex: number;
     inflammatoryIndex: number;
     totalCO2Emissions: number;
     co2EmissionsClass: 'A+' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
     totalWeight: number;
-    cuisineType: string[];
-    mealType: string[];
-    dishType: string[];
-    instructions: string[];
+    ingredients: Ingredient[];
     tags: string[];
     externalId: string;
     totalNutrients: {
@@ -61,7 +69,6 @@ export interface Recipe {
     };
     digest: DigestEntry[];
     _links: Links; 
-    comments? : string
   }
   
   export interface Link {

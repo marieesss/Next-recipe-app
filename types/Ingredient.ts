@@ -1,8 +1,20 @@
 export interface Ingredient{
-    text : string
     quantity : number
     measure : string
     food : string
-    weight : number
     foodId: string
     }
+
+export interface EdamamIngredient extends Ingredient{
+    text : string
+    weight : number
+    }
+
+
+export interface MyIngredient extends Ingredient{
+    foodImgUrl : string
+    }
+
+export interface MyIngredientRequest extends MyIngredient{
+        foodImgUrl : string
+}

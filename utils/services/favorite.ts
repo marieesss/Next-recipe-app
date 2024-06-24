@@ -2,9 +2,9 @@
 import { Favorites } from "@/types/Favorites"
 import { createClient } from "../supabase/client"
 
+let  database = createClient();
 export async function getFavorites(): Promise<Favorites[]> {
     try {
-        const database = createClient();
         const { data, error } = await database.from('favorites').select('meal_id, comments');
 
         if (error) {
@@ -20,7 +20,6 @@ export async function getFavorites(): Promise<Favorites[]> {
 
 export async function AddToFavorites(meal_id : string, comments : string){
     try {
-        const database = createClient()
         const {error} = await database.from('favorites').insert({ meal_id, comments})
         return error 
     } catch (error) {
@@ -31,7 +30,6 @@ export async function AddToFavorites(meal_id : string, comments : string){
 
 export async function removeFromFavorites(meal_id : string){
     try {
-        const database = createClient()
         const {error} = await database.from('favorites').delete().eq('meal_id', meal_id)
         return error 
     } catch (error) {
@@ -42,7 +40,6 @@ export async function removeFromFavorites(meal_id : string){
 
 export async function updateFavorite(meal_id : string,comments : string){
     try {
-        const database = createClient()
         const {error} = await database.from('favorites').update({comments}).eq('meal_id', meal_id)
         return error 
     } catch (error) {
@@ -54,7 +51,6 @@ export async function updateFavorite(meal_id : string,comments : string){
 
 export async function isFavorite(meal_id : string){
     try {
-        const database = createClient()
         const { data, error } = await database
         .from('favorites')
         .select()
