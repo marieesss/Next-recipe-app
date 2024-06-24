@@ -4,7 +4,7 @@ import { fetchData } from "./api";
 import { Favorites } from "@/types/Favorites";
 import { getFavorites } from "./favorite";
 
-const initUrl = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${process.env.RECIPE_ID}&app_key=${process.env.RECIPE_KEY}&mealType=Dinner`;
+const initUrl = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}&mealType=Dinner`;
 
 export async function getMeals(url = initUrl) {
     try {
@@ -42,7 +42,7 @@ export async function getMeals(url = initUrl) {
 
 export async function getRecipeById(id : string) {
     try {
-        const url = `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${process.env.RECIPE_ID}&app_key=${process.env.RECIPE_KEY}`;
+        const url = `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}`;
         const res = await fetchData(url) ;  
         return res.recipe as Recipe;
     } catch (error) {
@@ -52,7 +52,7 @@ export async function getRecipeById(id : string) {
 
 export async function getRecipesSuggestions(query : string) {
     try {
-        const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${process.env.RECIPE_ID}&app_key=${process.env.RECIPE_KEY}`;
+        const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}`;
         const data = await fetchData(url) as EdamamResponse;  
         // retrieve the first 3 response
         const response = data.hits.slice(0, 3).map((hit)=> hit.recipe)
