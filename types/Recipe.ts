@@ -61,6 +61,7 @@ export interface Recipe {
     };
     digest: DigestEntry[];
     _links: Links; 
+    comments? : string
   }
   
   export interface Link {

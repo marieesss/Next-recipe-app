@@ -10,7 +10,9 @@ interface CardProps {
   greenlabels: string[];
   redLabels:string[]
   calories: number;
-  id : string
+  id : string;
+  comments? : string
+
 }
 
 const Card: React.FC<CardProps> = ({
@@ -21,7 +23,8 @@ const Card: React.FC<CardProps> = ({
   greenlabels,
   calories,
   redLabels,
-  id
+  id, 
+  comments
 }) => {
   return (
     <a
@@ -66,6 +69,8 @@ const Card: React.FC<CardProps> = ({
         {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
         {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
       </div>
+
+      {comments && <div className='text-sm text-gray-500'>Comments : {comments}</div>}
     </a>
   );
 };
