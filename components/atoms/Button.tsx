@@ -2,7 +2,7 @@ import React from 'react'
 
 interface ButtonProps {
   text: string;
-  handleClick: () => Promise<void>;
+  handleClick: () => Promise<void> | void;
   variant?: 'primary' |'warning' |'success' |'info';
 }
 

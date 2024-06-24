@@ -1,14 +1,17 @@
     "use client"
 import CustomButton from '@/components/atoms/Button'
+import IngredientList from '@/components/organism/IngredientList'
+import RecipesList from '@/components/organism/RecipesList'
     import { Recipe } from '@/types/Recipe'
     import { AddToFavorites, isFavorite, removeFromFavorites, updateFavorite } from '@/utils/services/favorite'
-    import { getRecipeById } from '@/utils/services/recipes'
+    import { getRecipeById, getRecipesSuggestions } from '@/utils/services/recipes'
     import React, { useEffect, useState } from 'react'
 
     const RecipeDetails = ({ params }: { params: { id: string } }) => {
     const [recipe, setRecipe] = useState<Recipe>();
     const [isMyFavorite, setIsMyFavorite] = useState<boolean>(false);
     const [comment, setComment] = useState<string>("");
+    const [suggestions, setSuggestions] = useState<Recipe[]>([]);
 
 
     const initializeData = async() =>{
@@ -23,6 +26,8 @@ import CustomButton from '@/components/atoms/Button'
         // Get recipe by id
         const recipeRes = await getRecipeById(params.id)
         setRecipe(recipeRes)
+        let sug = await getRecipesSuggestions(recipeRes.dishType[0])
+        setSuggestions(sug)
     }
 
 
@@ -67,13 +72,7 @@ import CustomButton from '@/components/atoms/Button'
         <img src={recipe.image} alt={recipe.label} className=" object-fit rounded-lg mb-4" />
         <div>
         <h1 className="text-2xl font-bold mb-2">{recipe.label}</h1>
-        <h2 className="text-l font-bold mb-2">{recipe.yield}</h2>
-        <ul className="list-disc list-inside mb-4">
-            {recipe.ingredients.map((ingredient, index) => (
-            <li key={index} className="text-gray-700">{ingredient.text} </li>
-            ))}
-        </ul>
-
+        <IngredientList initialServings={recipe.yield} ingredients={recipe.ingredients}/> 
         <ul className="list-disc list-inside mb-4">
         </ul>
         <div className="flex space-x-4">
@@ -99,15 +98,20 @@ import CustomButton from '@/components/atoms/Button'
             
             </>
             :
-            <button 
-            onClick={AddFav}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-            Add to Favorites
-            </button>
+            <CustomButton 
+            handleClick={AddFav}
+            text='Add to favorite'
+            variant={"success"}/>
             }
 
-        </div>
+        </div>   
         </section>
+        {suggestions.length > 0 ? 
+            <div className="my-12 px-4">
+            <h3>Other Suggestions</h3>
+            <RecipesList recipesList={suggestions}/>
+        </div>
+     : null }
         </div>
     )
     }
