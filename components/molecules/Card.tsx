@@ -1,6 +1,8 @@
 import React from 'react';
 import { Ingredient } from '@/types/Ingredient';
 import Badge from '../atoms/Badges';
+import Link from 'next/link'
+
 
 interface CardProps {
   label: string;
@@ -27,8 +29,8 @@ const Card: React.FC<CardProps> = ({
   comments
 }) => {
   return (
-    <a
-      href={`recipes/${id}`}
+    <Link href={`/recipes/${id}`}>
+    <div
       className=" w-64 relative block overflow-hidden rounded-lg border border-gray-500 p-4 sm:p-6 lg:p-8"
     >
 
@@ -59,19 +61,13 @@ const Card: React.FC<CardProps> = ({
         <p className="text-sm text-gray-500">
           Ingredients:
         </p>
-        <ul className="list-disc list-inside">
-          {ingredients?.map((ingredient, index) => (
-            <li key={index}>
-              {ingredient?.food}
-            </li>
-          ))}
-        </ul>
         {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
         {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
       </div>
 
       {comments && <div className='text-sm text-gray-500'>Comments : {comments}</div>}
-    </a>
+    </div>
+    </Link>
   );
 };
 
