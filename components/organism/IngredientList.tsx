@@ -28,8 +28,8 @@ const IngredientList : React.FC<IngredientListProps> = ({ ingredients, initialSe
   return (
     <div>
       <Servings servingsNumber={servings} handleAddServing={handleAdd} handleRemoveServing={handleRemove} />
-      {ingredients.map((ingredient: Ingredient)=>(
-        <IngredientItem ingredientData={ingredient} servingsNumber={servings} initialServings={initialServings}/>
+      {ingredients.map((ingredient: Ingredient, index)=>(
+        <IngredientItem key={index} ingredientData={ingredient} servingsNumber={servings} initialServings={initialServings}/>
       ))}
     </div>
   )
