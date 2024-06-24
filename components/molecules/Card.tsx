@@ -1,6 +1,8 @@
 import React from 'react';
 import { Ingredient } from '@/types/Ingredient';
 import Badge from '../atoms/Badges';
+import Link from 'next/link'
+
 
 interface CardProps {
   label: string;
@@ -10,6 +12,9 @@ interface CardProps {
   greenlabels: string[];
   redLabels:string[]
   calories: number;
+  id : string;
+  comments? : string
+
 }
 
 const Card: React.FC<CardProps> = ({
@@ -19,12 +24,13 @@ const Card: React.FC<CardProps> = ({
   cuisineType,
   greenlabels,
   calories,
-  redLabels
+  redLabels,
+  id, 
+  comments
 }) => {
-
   return (
-    <a
-      href="#"
+    <Link href={`/recipes/${id}`}>
+    <div
       className=" w-64 relative block overflow-hidden rounded-lg border border-gray-500 p-4 sm:p-6 lg:p-8"
     >
 
@@ -33,10 +39,6 @@ const Card: React.FC<CardProps> = ({
           <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
             {label}
           </h3>
-
-          <p className="mt-1 text-xs font-medium text-gray-600">
-            {greenlabels?.join(", ")}
-          </p>
         </div>
 
         <div className="hidden sm:block sm:shrink-0">
@@ -56,20 +58,16 @@ const Card: React.FC<CardProps> = ({
         <p className="text-sm text-gray-500">
           Calories: {calories?.toFixed(2)}
         </p>
-        {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
-        {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
         <p className="text-sm text-gray-500">
           Ingredients:
         </p>
-        <ul className="list-disc list-inside">
-          {ingredients?.map((ingredient, index) => (
-            <li key={index}>
-              {ingredient?.food}
-            </li>
-          ))}
-        </ul>
+        {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
+        {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
       </div>
-    </a>
+
+      {comments && <div className='text-sm text-gray-500'>Comments : {comments}</div>}
+    </div>
+    </Link>
   );
 };
 

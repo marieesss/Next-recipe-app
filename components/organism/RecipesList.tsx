@@ -20,6 +20,8 @@ const RecipesList: React.FC<MealListProps> = ({ recipesList }) => {
           label={meal.label}
           greenlabels={meal.dietLabels}
           ingredients={meal.ingredients}
+          comments = {meal.comments}
+          id={meal.uri.split('#')[1]}
         />
       ))}
         </div>
