@@ -70,11 +70,19 @@ export interface Recipe {
 }
 
 export interface Links {
-  self: Link;
+  self?: Link;
   next?: Link;
 }
   
 export interface Hit {
     recipe: Recipe;
     _links: Links;
+  }
+
+  export interface EdamamResponse {
+    from: number;
+    to: number;
+    count : number;
+    _links : Links;
+    hits: Hit[];
   }

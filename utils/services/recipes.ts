@@ -1,5 +1,5 @@
 "use server"
-import { Hit, Recipe } from "@/types/Recipe";
+import { EdamamResponse, Hit, Recipe } from "@/types/Recipe";
 import { fetchData } from "./api";
 import { Favorites } from "@/types/Favorites";
 import { getFavorites } from "./favorite";
@@ -43,8 +43,20 @@ export async function getMeals(url = initUrl) {
 export async function getRecipeById(id : string) {
     try {
         const url = `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${process.env.RECIPE_ID}&app_key=${process.env.RECIPE_KEY}`;
-        const res = await fetchData(url);  
+        const res = await fetchData(url) ;  
         return res.recipe as Recipe;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getRecipesSuggestions(query : string) {
+    try {
+        const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${process.env.RECIPE_ID}&app_key=${process.env.RECIPE_KEY}`;
+        const data = await fetchData(url) as EdamamResponse;  
+        // retrieve the first 3 response
+        const response = data.hits.slice(0, 3).map((hit)=> hit.recipe)
+        return response as Recipe[];
     } catch (error) {
         throw error;
     }
@@ -53,16 +65,20 @@ export async function getRecipeById(id : string) {
 export async function getRecipesFavorites(): Promise<Recipe[]> {
     try {
         let recipes =[] as Recipe[]
+        // retrieve favorites id recipes from db
         const favoritesId = await getFavorites() as Favorites[];
-        console.log(favoritesId)
+        let promises
         if(favoritesId?.length > 0){
-            console.log(favoritesId)
-            const promises = favoritesId.map(async (fav : Favorites) => {
+
+            // Get info about all favorites recipes
+            promises = favoritesId.map(async (fav : Favorites) => {
                 const recipe = await getRecipeById(fav.meal_id)
+                // return favorite recipes and comments associated
                 return {...recipe, comments: fav.comments };
             });
             const results = await Promise.allSettled(promises);
     
+            // Return only results that has been ok 
             recipes = results
                 .filter(result => result.status === 'fulfilled')
                 .map(result => (result as PromiseFulfilledResult<Recipe>).value);
