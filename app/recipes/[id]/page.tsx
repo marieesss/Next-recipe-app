@@ -15,13 +15,22 @@ const RecipeDetails = ({ params }: { params: { id: string } }) => {
   const initializeData = useCallback(async () => {
     try {
       const isMyFavoriteRes = await isFavorite(params.id);
+      if(isMyFavoriteRes instanceof Error){
+        return 
+      }
       setIsMyFavorite(isMyFavoriteRes && isMyFavoriteRes.length > 0);
       if (isMyFavoriteRes && isMyFavoriteRes.length > 0) {
         setComment(isMyFavoriteRes[0].comments);
       }
       const recipeRes = await getRecipeById(params.id);
+      if(recipeRes instanceof Error){
+        return 
+      }
       setRecipe(recipeRes);
       const sug = await getRecipesSuggestions(recipeRes.dishType[0]);
+      if(sug instanceof Error){
+        return 
+      }
       setSuggestions(sug);
     } catch (error) {
       console.error("Error initializing data:", error);
