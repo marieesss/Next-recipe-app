@@ -17,28 +17,20 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, id, favorite, commentMessage })
 
   // Add recipe to database table "favorites"
   async function AddFav() {
-    const error = await AddToFavorites(id, comment);
+    await AddToFavorites(id, comment);
     setIsMyFavorite(true);
-    if (error) {
-      console.log(error);
-    }
   }
 // remove recipe from database table "favorites"
   async function removeFav() {
-    const error = await removeFromFavorites(id);
+    await removeFromFavorites(id);
     setIsMyFavorite(false);
-    if (error) {
-      console.log(error);
-    }
   }
 
   // If favorite
   // update recipe from database table "favorites"
   async function handleUpdateComment() {
-    const error = await updateFavorite(id, comment);
-    if (error) {
-      console.log(error);
-    }
+    await updateFavorite(id, comment);
+
   }
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
