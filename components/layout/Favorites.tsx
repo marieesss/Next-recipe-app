@@ -3,7 +3,6 @@ import React from 'react'
 import RecipesList from '../organism/RecipesList'
 
 const Favorites = ({data} :{data : Recipe[]}) => {
-    console.log(data)
 
   return (
     <div>

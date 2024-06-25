@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import Servings from '../molecules/Servings'
-import Ingredients from '../molecules/Ingredients'
+import Servings from './Servings'
 import { Ingredient } from '@/types/Ingredient';
-import IngredientItem from '../molecules/Ingredients';
+import IngredientItem from './Ingredients';
 
 interface IngredientListProps {
     ingredients: Ingredient[];
