@@ -13,16 +13,19 @@ export async function getFavorites(): Promise<Favorites[]> {
 
         return data as Favorites[] || [];
     } catch (error) {
-        console.error('Error fetching favorites:', error);
-        throw error;
+        throw error
     }
 }
 
 export async function AddToFavorites(meal_id : string, comments : string){
     try {
+        
         const database = createClient()
         const {error} = await database.from('favorites').insert({ meal_id, comments})
-        return error 
+        if (error) {
+            throw error;
+        } 
+        return 
     } catch (error) {
         console.log(error)
     }
@@ -33,9 +36,12 @@ export async function removeFromFavorites(meal_id : string){
     try {
         const database = createClient()
         const {error} = await database.from('favorites').delete().eq('meal_id', meal_id)
-        return error 
+        if (error) {
+            throw error;
+        } 
+        return 
     } catch (error) {
-        console.log(error)
+        throw error
     }
     
 }
@@ -44,9 +50,12 @@ export async function updateFavorite(meal_id : string,comments : string){
     try {
         const database = createClient()
         const {error} = await database.from('favorites').update({comments}).eq('meal_id', meal_id)
-        return error 
+        if (error) {
+            throw error;
+        } 
+        return 
     } catch (error) {
-        console.log(error)
+        throw error
     }
     
 }
@@ -67,8 +76,7 @@ export async function isFavorite(meal_id : string){
 
         return data as Favorites[]
     } catch (error) {
-        console.log(error)
-        return false;
+        throw error
     }
     
 }
