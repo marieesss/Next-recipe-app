@@ -1,5 +1,6 @@
 "use client"
 import CustomButton from '@/components/atoms/Button';
+import Dropdown from '@/components/atoms/Dropdown';
 import SearchBar from '@/components/molecules/SearchBar';
 import RecipesList from '@/components/organism/RecipesList';
 import { Recipe } from '@/types/Recipe';
@@ -60,6 +61,7 @@ const Index =  () => {
   return (
     <div>
       <SearchBar handleSearch={handleSearch} />
+      <Dropdown recipes={recipes} setFilteredRecipes={setFilteredRecipes}/>
       {filteredRecipes.length > 0 ? (
         <>
           <RecipesList recipesList={filteredRecipes} />
