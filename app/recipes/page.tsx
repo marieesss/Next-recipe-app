@@ -78,7 +78,7 @@ const Index =  () => {
       ) : recipes.length > 0 ? (
         <>
         <RecipesList recipesList={recipes} />
-        {recipes && <CustomButton text={'Load More'} handleClick={handleRefresh} />}
+        {nextPage && <CustomButton text={'Load More'} handleClick={handleRefresh} />}
       </>
       ) :
       (
