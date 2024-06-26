@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import Servings from '../molecules/Servings'
-import Ingredients from '../molecules/Ingredients'
+import Servings from './Servings'
 import { Ingredient } from '@/types/Ingredient';
-import IngredientItem from '../molecules/Ingredients';
+import IngredientItem from '../atoms/Ingredients';
 
 interface IngredientListProps {
     ingredients: Ingredient[];
@@ -11,6 +10,7 @@ interface IngredientListProps {
 
 const IngredientList : React.FC<IngredientListProps> = ({ ingredients, initialServings}) => {
     const [servings, setServings] = useState<number>(initialServings);
+    // Increment serving
     const handleAdd = ()=>{
         let newServings = servings
         if(newServings){
@@ -19,6 +19,7 @@ const IngredientList : React.FC<IngredientListProps> = ({ ingredients, initialSe
             setServings(1) 
         }
     }
+    // Decrement serving
     const handleRemove = ()=>{
         let newServings = servings
         if(newServings && newServings>0){

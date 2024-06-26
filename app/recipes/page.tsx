@@ -1,5 +1,6 @@
 "use client"
 import CustomButton from '@/components/atoms/Button';
+import Dropdown from '@/components/atoms/Dropdown';
 import SearchBar from '@/components/molecules/SearchBar';
 import RecipesList from '@/components/organism/RecipesList';
 import { Recipe } from '@/types/Recipe';
@@ -21,7 +22,11 @@ const Index =  () => {
   // fetch recipes
   const fetchRecipes = async () => {
     try {
-      const { recipes, next } = await getMeals();
+      const  res = await getMeals();
+      if(res instanceof Error){
+        return
+      }
+      const { recipes, next } = res
       setRecipes(recipes);
       setNextPage(next);
     } catch (error) {
@@ -47,7 +52,11 @@ const Index =  () => {
     if (nextPage) {
       try {
         // retrieve new recipes
-        const { recipes: newRecipes, next: newNextPage } = await getMeals(nextPage);
+        const  res = await getMeals();
+        if(res instanceof Error){
+          return
+        }
+        const { recipes: newRecipes, next: newNextPage } = res
         setRecipes([...recipes, ...newRecipes]);
         setNextPage(newNextPage);
         handleFilter()
@@ -60,6 +69,7 @@ const Index =  () => {
   return (
     <div>
       <SearchBar handleSearch={handleSearch} />
+      <Dropdown recipes={recipes} setFilteredRecipes={setFilteredRecipes}/>
       {filteredRecipes.length > 0 ? (
         <>
           <RecipesList recipesList={filteredRecipes} />
@@ -68,7 +78,7 @@ const Index =  () => {
       ) : recipes.length > 0 ? (
         <>
         <RecipesList recipesList={recipes} />
-        {recipes && <CustomButton text={'Load More'} handleClick={handleRefresh} />}
+        {nextPage && <CustomButton text={'Load More'} handleClick={handleRefresh} />}
       </>
       ) :
       (

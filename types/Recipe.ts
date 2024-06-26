@@ -79,6 +79,11 @@ export interface Hit {
     _links: Links;
   }
 
+export interface RecipeResponse {
+    recipes: Recipe[];
+    next: string;
+}
+
   export interface EdamamResponse {
     from: number;
     to: number;

@@ -1,12 +1,12 @@
 "use server"
-import { EdamamResponse, Hit, Recipe } from "@/types/Recipe";
+import { EdamamResponse, Hit, Recipe, RecipeResponse } from "@/types/Recipe";
 import { fetchData } from "./api";
 import { Favorites } from "@/types/Favorites";
 import { getFavorites } from "./favorite";
 
 const initUrl = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}&mealType=Dinner`;
 
-export async function getMeals(url = initUrl) {
+export async function getMeals(url = initUrl) : Promise<RecipeResponse | Error>{
     try {
         const res = await fetchData(url);
         const next = res._links.next.href
@@ -35,34 +35,42 @@ export async function getMeals(url = initUrl) {
         });
         return {recipes, next};
     } catch (error) {
-        console.error("Failed to fetch meals:", error);
-        throw error;
+        if (error instanceof Error) {
+            return error;
+        }
+        return new Error("An unknown error occurred");
     }
 }
 
-export async function getRecipeById(id : string) {
+export async function getRecipeById(id : string) : Promise<Recipe| Error>{
     try {
         const url = `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}`;
         const res = await fetchData(url) ;  
         return res.recipe as Recipe;
-    } catch (error) {
-        throw error;
+    }catch (error) {
+        if (error instanceof Error) {
+            return error;
+        }
+        return new Error("An unknown error occurred");
     }
 }
 
-export async function getRecipesSuggestions(query : string) {
+export async function getRecipesSuggestions(query : string) : Promise<Recipe[] | Error>  {
     try {
         const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}`;
         const data = await fetchData(url) as EdamamResponse;  
         // retrieve the first 3 response
         const response = data.hits.slice(0, 3).map((hit)=> hit.recipe)
         return response as Recipe[];
-    } catch (error) {
-        throw error;
+    }catch (error) {
+    if (error instanceof Error) {
+        return error;
     }
+    return new Error("An unknown error occurred");
+}
 }
 
-export async function getRecipesFavorites(): Promise<Recipe[]> {
+export async function getRecipesFavorites(): Promise<Recipe[] | Error> {
     try {
         let recipes =[] as Recipe[]
         // retrieve favorites id recipes from db
@@ -86,9 +94,10 @@ export async function getRecipesFavorites(): Promise<Recipe[]> {
         }
         return recipes
     } catch (error) {
-        console.error('Error fetching favorite recipes:', error);
-        throw error;
+        if (error instanceof Error) {
+            return error;
+        }
+        return new Error("An unknown error occurred");
     }
-
 }
 
