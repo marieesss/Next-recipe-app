@@ -61,8 +61,8 @@ const Card: React.FC<CardProps> = ({
         <p className="text-sm text-gray-500">
           Ingredients:
         </p>
-        {redLabels.map((redLabel)=>( <Badge text={redLabel} type='caution'/>))}
-        {greenlabels?.map((greenlabel)=>( <Badge text={greenlabel} type='healthy'/>))}
+        {redLabels.map((redLabel, index)=>( <Badge key={index} text={redLabel} type='caution'/>))}
+        {greenlabels?.map((greenlabel, index)=>( <Badge key={index} text={greenlabel} type='healthy'/>))}
       </div>
 
       {comments && <div className='text-sm text-gray-500'>Comments : {comments}</div>}
