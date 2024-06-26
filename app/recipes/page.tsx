@@ -52,7 +52,11 @@ const Index =  () => {
     if (nextPage) {
       try {
         // retrieve new recipes
-        const { recipes: newRecipes, next: newNextPage } = await getMeals(nextPage);
+        const  res = await getMeals();
+        if(res instanceof Error){
+          return
+        }
+        const { recipes: newRecipes, next: newNextPage } = res
         setRecipes([...recipes, ...newRecipes]);
         setNextPage(newNextPage);
         handleFilter()
