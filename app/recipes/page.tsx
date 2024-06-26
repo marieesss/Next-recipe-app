@@ -22,7 +22,11 @@ const Index =  () => {
   // fetch recipes
   const fetchRecipes = async () => {
     try {
-      const { recipes, next } = await getMeals();
+      const  res = await getMeals();
+      if(res instanceof Error){
+        return
+      }
+      const { recipes, next } = res
       setRecipes(recipes);
       setNextPage(next);
     } catch (error) {

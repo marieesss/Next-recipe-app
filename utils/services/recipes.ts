@@ -1,12 +1,12 @@
 "use server"
-import { EdamamResponse, Hit, Recipe } from "@/types/Recipe";
+import { EdamamResponse, Hit, Recipe, RecipeResponse } from "@/types/Recipe";
 import { fetchData } from "./api";
 import { Favorites } from "@/types/Favorites";
 import { getFavorites } from "./favorite";
 
 const initUrl = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${process.env.NEXT_PUBLIC_RECIPE_ID}&app_key=${process.env.NEXT_PUBLIC_RECIPE_KEY}&mealType=Dinner`;
 
-export async function getMeals(url = initUrl) : Promise<Recipe[]| Error>{
+export async function getMeals(url = initUrl) : Promise<RecipeResponse | Error>{
     try {
         const res = await fetchData(url);
         const next = res._links.next.href
